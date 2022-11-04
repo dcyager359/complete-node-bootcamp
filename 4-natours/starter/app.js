@@ -28,6 +28,7 @@ const appendTour = (jsonNode) => {
   console.log(tourData);
 };
 
+/// GET all
 app.get('/api/v1/tours', (req, res) => {
   res.status(200).json({
     status: 'success',
@@ -38,6 +39,24 @@ app.get('/api/v1/tours', (req, res) => {
   });
 });
 
+/// GET by ID
+app.get('/api/v1/tours/:id', (req, res) => {
+  const id = req.params.id * 1;
+  const tour = tourData.find((item) => item.id === id);
+
+  if (tour) {
+    res.status(200).json({
+      status: 'success',
+      data: {
+        tours: tour,
+      },
+    });
+  } else {
+    res.status(404).json({ status: 'failed', message: 'Invalid Id' });
+  }
+});
+
+/// POST
 app.post('/api/v1/tours', (req, res) => {
   const newId = getNextTourId();
   const newTour = Object.assign({ id: newId }, req.body);
@@ -57,6 +76,38 @@ app.post('/api/v1/tours', (req, res) => {
       tours: newTour,
     },
   });
+});
+
+// PATCH
+app.patch('/api/v1/tours/:id', (req, res) => {
+  console.log('APP PATCH');
+  const id = req.params.id * 1;
+
+  if (id) {
+    res.status(200).json({
+      status: 'success',
+      data: {
+        tours: '<Updated Tour here ...>',
+      },
+    });
+  } else {
+    res.status(404).json({ status: 'failed', message: 'Invalid Id' });
+  }
+});
+
+// DELETE
+app.delete('/api/v1/tours/:id', (req, res) => {
+  console.log('APP DELETE');
+  const id = req.params.id * 1;
+
+  if (id) {
+    res.status(200).json({
+      status: 'success',
+      data: null,
+    });
+  } else {
+    res.status(404).json({ status: 'failed', message: 'Invalid Id' });
+  }
 });
 
 const port = 8000;
