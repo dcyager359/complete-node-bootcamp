@@ -16,7 +16,6 @@ exports.checkId = (req, res, next, val) => {
 };
 
 exports.validateTourData = (req, res, next) => {
-  console.log('check the posted tour data!!!');
   if (!req.body.name || !req.body.price) {
     return res.status(400).json({
       status: 'fail',
@@ -68,8 +67,6 @@ exports.createTour = (req, res) => {
   fs.writeFile(tourFileName, JSON.stringify(tourData), (err) => {
     if (err) {
       console.log(`error writing tour file: ${err.message}`);
-    } else {
-      console.log('Tour file successfully updated');
     }
   });
 

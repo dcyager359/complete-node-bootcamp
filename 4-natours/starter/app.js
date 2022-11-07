@@ -8,14 +8,10 @@ const app = express();
 // Middleware
 app.use(morgan());
 app.use(express.json());
+app.use(express.static(`${__dirname}/public`));
+app.use(express.static(`${__dirname}/img`));
 
 app.use((req, res, next) => {
-  console.log('custom middleware filter');
-  next();
-});
-
-app.use((req, res, next) => {
-  console.log('custom middleware filter 2');
   req.requestTime = new Date().toISOString();
   next();
 });
