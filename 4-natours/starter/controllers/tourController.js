@@ -3,6 +3,23 @@ const fs = require('fs');
 const tourFileName = `${__dirname}/../dev-data/data/tours-simple.json`;
 let tourData = JSON.parse(fs.readFileSync(tourFileName, 'utf-8'));
 
+exports.checkId = (req, res, next, val) => {
+  const idToFind = val * 1;
+
+  if (!tourData.find((item) => item.id === idToFind)) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
+  next();
+};
+
+const getNextTourId = () => {
+  const tmp = tourData.map((x) => x.id);
+  const max = Math.max(...tmp);
+  return max + 1;
+};
 // Route Tour endpoint Handlers
 exports.getAllTours = (req, res) => {
   res.status(200).json({
@@ -56,28 +73,20 @@ exports.updateTour = (req, res) => {
   console.log('APP PATCH');
   const id = req.params.id * 1;
 
-  if (id) {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        tours: '<Updated Tour here ...>',
-      },
-    });
-  } else {
-    res.status(404).json({ status: 'failed', message: 'Invalid Id' });
-  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tours: '<Updated Tour here ...>',
+    },
+  });
 };
 
 exports.deleteTour = (req, res) => {
   console.log('APP DELETE');
   const id = req.params.id * 1;
 
-  if (id) {
-    res.status(200).json({
-      status: 'success',
-      data: null,
-    });
-  } else {
-    res.status(404).json({ status: 'failed', message: 'Invalid Id' });
-  }
+  res.status(200).json({
+    status: 'success',
+    data: null,
+  });
 };
