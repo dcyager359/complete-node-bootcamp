@@ -15,11 +15,23 @@ exports.checkId = (req, res, next, val) => {
   next();
 };
 
+exports.validateTourData = (req, res, next) => {
+  console.log('check the posted tour data!!!');
+  if (!req.body.name || !req.body.price) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Incomplete Data',
+    });
+  }
+  next();
+};
+
 const getNextTourId = () => {
   const tmp = tourData.map((x) => x.id);
   const max = Math.max(...tmp);
   return max + 1;
 };
+
 // Route Tour endpoint Handlers
 exports.getAllTours = (req, res) => {
   res.status(200).json({
