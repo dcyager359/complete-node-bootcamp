@@ -17,6 +17,11 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  // req.msg = 'Hello from the middleware 👋';
+  next();
+});
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
