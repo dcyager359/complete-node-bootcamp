@@ -1,9 +1,24 @@
+const { request } = require('../app');
 const Tour = require('../models/tourModel');
+const APIFeatures = require('../utils/apiFeatures');
+
+exports.aliasTopTours = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-ratingsAverage,price';
+  req.query.fields = 'name,price,ratingsAverage,difficulty';
+  next();
+};
 
 // Route Tour endpoint Handlers
 exports.getAllTours = async (req, res) => {
   try {
-    const tours = await Tour.find();
+    console.log('req', typeof req);
+    const features = new APIFeatures(Tour.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const tours = await features.query;
 
     res.status(200).json({
       status: 'success',
@@ -14,6 +29,7 @@ exports.getAllTours = async (req, res) => {
       },
     });
   } catch (err) {
+    console.log('error', err);
     res.status('404').json({ message: err });
   }
 };

@@ -2,6 +2,9 @@ const express = require('express');
 // User Routes
 const router = express.Router();
 const userController = require('../controllers/userController');
+const authenticationController = require('../controllers/authenticationController');
+
+router.post('/signup', authenticationController.signup);
 
 // User Endpoint Handlers
 router

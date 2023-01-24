@@ -32,7 +32,7 @@ const toursSchema = new mongoose.Schema({
   priceDiscount: { type: Number, required: [false] },
   imageCover: { type: String, required: [true, 'a tour must have a image'] },
   images: [String],
-  createdAt: { type: Date, default: Date.now() },
+  createdAt: { type: Date, default: Date.now(), select: false }, //set select to false to prevent mongoose from showing.
   startDates: [Date],
 });
 
